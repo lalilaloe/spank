@@ -103,9 +103,7 @@ function writeSummary(urls, options) {
         exports: urls.length,
         list: urls.map(url => url.path),
         discovery: urls,
-    })).catch(err => {
-        console.error(err)
-    })
+    }))
 }
 
 
@@ -117,7 +115,9 @@ function saveUrlToHtml(options) {
     return async function urlToHtml(url) {
         const html = await tossr(entrypoint, script, url, { silent: true, eventName, host, inlineDynamicImports, ...ssrOptions })
         const suffix = forceIndex && !url.endsWith('/index') ? '/index' : ''
-        await outputFile(`${outputDir + url + suffix}.html`, html)
+        await outputFile(`${outputDir + url + suffix}.html`, html).catch(err => {
+            console.error(err)
+        })
         const dom = parse(html)
         return dom.querySelectorAll('a').map(s => (
             { path: s.attributes.href }
