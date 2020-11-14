@@ -103,7 +103,9 @@ function writeSummary(urls, options) {
         exports: urls.length,
         list: urls.map(url => url.path),
         discovery: urls,
-    }, null, 2))
+    })).catch(err => {
+        console.error(err)
+    })
 }
 
 
