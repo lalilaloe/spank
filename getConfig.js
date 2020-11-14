@@ -13,7 +13,7 @@ const getConfig = async input => {
 }
 
 async function getFrameworkConfig() {
-    spinner = ora('Looking for matching config').start()
+    //spinner = ora('Looking for matching config').start()
 
     const pkgjson = { dependencies: {}, devDependencies: {} };
     if (existsSync('package.json')) {
@@ -27,8 +27,8 @@ async function getFrameworkConfig() {
     const promises = configFiles.map(async file => {
         const { condition, config, name, supersedes } = require(`./configs/${file}`)
         if (condition({ pkgjson })) {
-            spinner.text = 'Found matching config: ' + chalk.magentaBright(name)
-
+            //spinner.text = 'Found matching config: ' + chalk.magentaBright(name)
+            console.log('Found matching config',name)
             return {
                 config: config(),
                 supersedes,
@@ -46,10 +46,10 @@ async function getFrameworkConfig() {
         const names = resolvedConfigs.map(conf => conf.name)
         const configs = resolvedConfigs.map(conf => conf.config)
         const config = Object.assign({}, ...configs)
-        spinner.succeed('Found matching config: ' + chalk.magentaBright(names.join(', ')))
+        //spinner.succeed('Found matching config: ' + chalk.magentaBright(names.join(', ')))
         return config
     } else {
-        spinner.info('Found no matching config. While one isn\'t required, We would greatly appreciate if you reach out to us. https://github.com/roxiness/spank')
+        //spinner.info('Found no matching config. While one isn\'t required, We would greatly appreciate if you reach out to us. https://github.com/roxiness/spank')
         return {}
     }
 }

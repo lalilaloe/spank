@@ -24,7 +24,7 @@ async function start(options) {
             : require(resolve(process.cwd(), options.sitemap))
     ).map(path => ({ path }))
 
-    spinner = ora({ interval: 20 }).start()
+    //spinner = ora({ interval: 20 }).start()
 
     /** @param {Url} url */
     const short = url => url.path.replace(/\/index$/, '')
@@ -67,7 +67,8 @@ async function start(options) {
         _urls.forEach((url) => {
             queue.push(async () => {
                 counter++
-                spinner.text = `Exporting ${counter} of ${urls.length} ${url.path}`
+                //spinner.text = `Exporting ${counter} of ${urls.length} ${url.path}`
+                console.log(`Exporting ${counter} of ${urls.length} ${url.path}`)
                 url.children = await urlToHtml(url.path)
 
                 if (depth < options.depth) {
@@ -85,8 +86,8 @@ async function start(options) {
 
     const time = Date.now()
     await new Promise((resolve) => { queue.done = () => resolve() })
-    spinner.succeed(`Exported ${urls.length} pages in ${Date.now() - time} ms`)
-
+    // spinner.succeed(`Exported ${urls.length} pages in ${Date.now() - time} ms`)
+    console.log(`Exported ${urls.length} pages in ${Date.now() - time} ms`)
     if (options.writeSummary)
         writeSummary(urls, options)
 }
